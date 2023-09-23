@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { Card, Button } from "flowbite-svelte";
+	import { Button, Card } from "flowbite-svelte";
+	import { superForm } from "sveltekit-superforms/client";
+	import type { PageData } from "./$types";
+
+	export let data: PageData;
+
+	const { form, errors } = superForm(data.form);
 </script>
 
 <div class="py-20">
@@ -8,22 +14,36 @@
 			<h1 class="text-4xl font-semibold">Register for an account</h1>
 		</div>
 		<Card class="mt-6 w-full" padding="xl" size="md">
-			<form class="flex flex-col space-y-6">
+			<form method="post" class="flex flex-col space-y-6">
 				<label class="space-y-2" for="full_name">
 					<span>Name</span>
-					<input type="text" name="full_name" />
+					<input bind:value={$form.full_name} type="text" name="full_name" />
+					{#if $errors.full_name}
+						<span class="block text-red-600 dark:text-red-500"> {$errors.full_name} </span>
+					{/if}
 				</label>
 				<label class="space-y-2" for="email">
 					<span>Email</span>
-					<input type="email" name="email" />
+					<input bind:value={$form.email} type="email" name="email" />
+					{#if $errors.email}
+						<span class="block text-red-600 dark:text-red-500"> {$errors.email} </span>
+					{/if}
 				</label>
 				<label class="space-y-2" for="password">
 					<span>Password</span>
-					<input type="password" name="password" />
+					<input bind:value={$form.password} type="password" name="password" />
+					{#if $errors.password}
+						<span class="block text-red-600 dark:text-red-500"> {$errors.password} </span>
+					{/if}
 				</label>
 				<label class="space-y-2" for="passwordConfirm">
 					<span>Confirm Password</span>
-					<input type="password" name="passwordConfirm" />
+					<input bind:value={$form.password_confirmation} type="password" name="passwordConfirm" />
+					{#if $errors.password_confirmation}
+						<span class="block text-red-600 dark:text-red-500">
+							{$errors.password_confirmation}
+						</span>
+					{/if}
 				</label>
 				<Button type="submit" class="w-full">Register</Button>
 				<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
