@@ -1,6 +1,5 @@
 import { ENV } from "$lib/server/env";
 import { createSupabaseServerClient } from "@supabase/auth-helpers-sveltekit";
-import type { Session } from "@supabase/supabase-js";
 import type { Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -10,7 +9,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         event,
     });
 
-    event.locals.getSession = async (): Promise<Session | null> => {
+    event.locals.getSession = async () => {
         const {
             data: { session },
         } = await event.locals.supabase.auth.getSession();

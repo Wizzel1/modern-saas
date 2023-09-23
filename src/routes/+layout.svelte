@@ -11,11 +11,8 @@
 		{ label: "Contacts", href: "/contacts" },
 		{ label: "Account", href: "/account" }
 	];
-
 	export let data;
-
 	$: ({ session, supabase } = data);
-
 	onMount(() => {
 		const {
 			data: { subscription }
@@ -24,10 +21,7 @@
 				invalidate("supabase:auth");
 			}
 		});
-
-		return () => {
-			subscription?.unsubscribe();
-		};
+		return () => subscription.unsubscribe();
 	});
 </script>
 

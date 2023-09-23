@@ -45,7 +45,7 @@ export const actions: Actions = {
         });
 
         if (authError) {
-            return setError(form, null, "An error occurred while registering. Please try again later.");
+            return setError(form, "An error occurred while registering. Please try again later.");
         }
 
         return { form }
