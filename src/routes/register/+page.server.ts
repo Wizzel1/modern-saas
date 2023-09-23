@@ -4,10 +4,16 @@ import { z } from 'zod';
 
 
 const registerUserSchema = z.object({
-    full_name: z.string().max(140).nullish(),
-    email: z.string().email(),
-    password: z.string().min(6).max(100),
-    password_confirmation: z.string().min(6).max(100),
+    full_name: z.string()
+        .max(140, "Password must be 140 Characters or less")
+        .nullish(),
+    email: z.string().email("Please enter a valid email address"),
+    password: z.string()
+        .min(6, "Password must be at least 6 Characters")
+        .max(64, "Password must be 64 Characters or less"),
+    password_confirmation: z.string()
+        .min(6, "Password must be at least 6 Characters")
+        .max(64, "Password must be 64 Characters or less"),
 });
 
 
