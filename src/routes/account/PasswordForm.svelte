@@ -6,7 +6,9 @@
 	import { superForm } from "sveltekit-superforms/client";
 
 	export let data: SuperValidated<PasswordSchema>;
-	const { form, errors, enhance } = superForm(data);
+	const { form, errors, enhance } = superForm(data, {
+		resetForm: true
+	});
 </script>
 
 <section class="px-6 pt-16">
@@ -16,7 +18,7 @@
 	</div>
 	<p class="mt-3 max-w-none text-sm">Change the password associated with your account</p>
 	<!-- Change Password Form -->
-	<form class="mt-8 flex flex-col space-y-4" method="POST" action="?/changePassword" use:enhance>
+	<form class="mt-8 flex flex-col space-y-4" method="POST" action="?/updatePasword" use:enhance>
 		<label for="password" class="space-y-2">
 			<span>New Password</span>
 			<input type="password" name="password" bind:value={$form.password} />
