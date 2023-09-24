@@ -1,24 +1,27 @@
 <script lang="ts">
-	import { contacts } from "$lib/data";
+	import { contacts } from "$lib/data"
 	import {
 		Button,
 		Dropdown,
 		DropdownItem,
-		MenuButton,
 		Table,
 		TableBody,
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
 		TableHeadCell
-	} from "flowbite-svelte";
+	} from "flowbite-svelte"
+	import CreateContactModal from "./CreateContactModal.svelte"
+
+	export let data
+	let createContactOpen = false
 </script>
 
 <div class="py-20">
 	<!-- Contacts Page Header -->
 	<div class="flex w-full items-center justify-between pb-6">
 		<h1 class="text-3xl">Contacts</h1>
-		<Button size="sm">New Contact</Button>
+		<Button on:click={() => (createContactOpen = true)} size="sm">New Contact</Button>
 	</div>
 	<!-- Contacts Table -->
 	<Table shadow divClass="min-h-full">
@@ -37,7 +40,7 @@
 					<TableBodyCell>{contact.phone}</TableBodyCell>
 					<TableBodyCell>{contact.company}</TableBodyCell>
 					<TableBodyCell>
-						<MenuButton class="dots-menu dark:text-white" vertical name="Contact Menu" />
+						<Button class="dots-menu dark:text-white" vertical name="Contact Menu" />
 						<Dropdown placement="left-start">
 							<DropdownItem>Edit</DropdownItem>
 							<DropdownItem slot="footer">Delete</DropdownItem>
@@ -48,3 +51,4 @@
 		</TableBody>
 	</Table>
 </div>
+<CreateContactModal bind:open={createContactOpen} data={data.createContactForm} />
