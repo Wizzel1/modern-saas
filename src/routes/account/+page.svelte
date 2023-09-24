@@ -24,7 +24,7 @@
 				<div>
 					Current Plan: <strong>Free</strong>
 				</div>
-				<Button class="mt-4">Manage Billing</Button>
+				<Button color="blue" class="mt-4">Manage Billing</Button>
 			</div>
 		</section>
 		<!-- Profile Section -->
@@ -40,7 +40,7 @@
 					<span>Name</span>
 					<input type="text" name="full_name" />
 				</label>
-				<Button type="submit" class="mt-4">Update Details</Button>
+				<Button color="blue" type="submit" class="mt-4">Update Details</Button>
 			</form>
 		</section>
 		<!-- Email Address Section -->
@@ -56,7 +56,7 @@
 					<span>Email</span>
 					<input type="email" name="email" />
 				</label>
-				<Button type="submit" class="mt-4">Update Email</Button>
+				<Button color="blue" type="submit" class="mt-4">Update Email</Button>
 			</form>
 		</section>
 		<!-- Change Password Section -->
@@ -76,7 +76,7 @@
 					<span>Confirm New Password</span>
 					<input type="password" name="passwordConfirm" />
 				</label>
-				<Button type="submit" class="mt-4 self-start">Change Password</Button>
+				<Button color="blue" type="submit" class="mt-4 self-start">Change Password</Button>
 			</form>
 		</section>
 	</div>

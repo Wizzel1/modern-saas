@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Button, Card } from "flowbite-svelte";
 	import { prices } from "$lib/data";
+	import { Button, Card } from "flowbite-svelte";
 </script>
 
 <div class="py-20">
@@ -36,7 +36,7 @@
 						</li>
 					{/each}
 				</ul>
-				<Button class="w-full">{price.product.call_to_action}</Button>
+				<Button color="blue" class="w-full">{price.product.call_to_action}</Button>
 			</Card>
 		{/each}
 	</div>

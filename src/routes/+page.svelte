@@ -11,7 +11,7 @@
 		</p>
 	</div>
 	<div class="flex items-center justify-center gap-3">
-		<Button href="/pricing" size="lg">Get Started</Button>
+		<Button color="blue" href="/pricing" size="lg">Get Started</Button>
 		<Button href="/pricing" color="light" size="lg">Learn More</Button>
 	</div>
 </div>
