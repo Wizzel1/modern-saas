@@ -1,28 +1,26 @@
-import { fail, type Actions } from '@sveltejs/kit';
-import { setError, superValidate } from 'sveltekit-superforms/server';
-import { z } from 'zod';
-
+import { fail } from "@sveltejs/kit";
+import { setError, superValidate } from "sveltekit-superforms/server";
+import { z } from "zod";
+import type { Actions } from "./$types";
 
 const registerUserSchema = z.object({
-    full_name: z.string()
-        .max(140, "Password must be 140 Characters or less")
-        .nullish(),
-    email: z.string().email("Please enter a valid email address"),
-    password: z.string()
-        .min(6, "Password must be at least 6 Characters")
-        .max(64, "Password must be 64 Characters or less"),
-    password_confirmation: z.string()
-        .min(6, "Password must be at least 6 Characters")
-        .max(64, "Password must be 64 Characters or less"),
+    full_name: z.string().max(140, "Name must be 140 characters or less").nullish(),
+    email: z.string().email("Invalid email address"),
+    password: z
+        .string()
+        .min(6, "Password must be at least 6 characters")
+        .max(64, "Password must be 64 characters or less"),
+    passwordConfirm: z
+        .string()
+        .min(6, "Password must be at least 6 characters")
+        .max(64, "Password must be 64 characters or less"),
 });
 
-
-
-export const load = (async (event) => {
+export const load = async (event) => {
     return {
         form: superValidate(registerUserSchema),
     };
-});
+};
 
 export const actions: Actions = {
     default: async (event) => {
@@ -30,8 +28,8 @@ export const actions: Actions = {
 
         if (!form.valid) return fail(400, { form });
 
-        if (form.data.password !== form.data.password_confirmation) {
-            return setError(form, "password_confirmation", "Passwords don't match");
+        if (form.data.password !== form.data.passwordConfirm) {
+            return setError(form, "passwordConfirm", "Passwords do not match");
         }
 
         const { error: authError } = await event.locals.supabase.auth.signUp({
@@ -40,14 +38,14 @@ export const actions: Actions = {
             options: {
                 data: {
                     full_name: form.data.full_name ?? "",
-                }
-            }
+                },
+            },
         });
 
         if (authError) {
-            return setError(form, "An error occurred while registering. Please try again later.");
+            return setError(form, "An error occurred while registering.");
         }
 
-        return { form }
-    }
+        return { form };
+    },
 };
