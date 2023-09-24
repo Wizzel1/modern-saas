@@ -3,7 +3,9 @@
 	import { superForm } from "sveltekit-superforms/client";
 	import type { PageData } from "./$types";
 	export let data: PageData;
-	const { form, errors } = superForm(data.form);
+	const { form, errors, enhance } = superForm(data.form, {
+		resetForm: true
+	});
 </script>
 
 <div class="py-20">
@@ -12,7 +14,7 @@
 			<h1 class="text-4xl font-semibold">Register for an account</h1>
 		</div>
 		<Card class="mt-6 w-full" padding="xl" size="md">
-			<form method="POST" class="flex flex-col space-y-6">
+			<form method="POST" class="flex flex-col space-y-6" use:enhance>
 				<label class="space-y-2" for="full_name">
 					<span>Name</span>
 					<input type="text" name="full_name" bind:value={$form.full_name} />
