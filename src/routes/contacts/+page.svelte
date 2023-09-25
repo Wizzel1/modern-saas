@@ -11,9 +11,17 @@
 		TableHeadCell
 	} from "flowbite-svelte"
 	import CreateContactModal from "./CreateContactModal.svelte"
+	import DeleteContactsModal from "./DeleteContactsModal.svelte"
 
 	export let data
 	let createContactOpen = false
+	let deleteContactOpen = false
+	let contactToDelete: string
+
+	function handleContactDelete(contact_id: string) {
+		contactToDelete = contact_id
+		deleteContactOpen = true
+	}
 </script>
 
 <div class="py-20">
@@ -42,7 +50,8 @@
 						<Button class="dots-menu dark:text-white" vertical name="Contact Menu" />
 						<Dropdown placement="left-start">
 							<DropdownItem href="/contacts/{contact.id}">Edit</DropdownItem>
-							<DropdownItem slot="footer">Delete</DropdownItem>
+							<DropdownItem on:click={() => handleContactDelete(contact.id)} slot="footer"
+								>Delete</DropdownItem>
 						</Dropdown>
 					</TableBodyCell>
 				</TableBodyRow>
@@ -51,3 +60,8 @@
 	</Table>
 </div>
 <CreateContactModal bind:open={createContactOpen} data={data.createContactForm} />
+<DeleteContactsModal
+	bind:open={deleteContactOpen}
+	data={data.deleteContactForm}
+	contactId={contactToDelete}>
+</DeleteContactsModal>
