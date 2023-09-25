@@ -13,7 +13,7 @@ const loginUserSchema = z.object({
 export const load = async (event) => {
     ///Redirect so home if session exists
     const session = await event.locals.getSession();
-    if (session) { throw redirect(302, "/"); }
+    if (session) throw redirect(302, "/");
 
     return {
         form: superValidate(loginUserSchema),
@@ -23,8 +23,7 @@ export const load = async (event) => {
 export const actions: Actions = {
     default: async (event) => {
         const form = await superValidate(event, loginUserSchema);
-
-        if (!form.valid) { return fail(400, { form }); }
+        if (!form.valid) return fail(400, { form });
 
         const { error: authError } = await event.locals.supabase.auth.signInWithPassword(form.data);
 

@@ -34,10 +34,10 @@ export const load = async (event) => {
 export const actions: Actions = {
     updateProfile: async (event) => {
         const session = await event.locals.getSession();
-        if (!session) { throw error(401, "Unauthorized"); }
+        if (!session) throw error(401, "Unauthorized");
 
         const profileForm = await superValidate(event, profileSchema, { id: "profile" });
-        if (!profileForm.valid) { return fail(400, { profileForm }); }
+        if (!profileForm.valid) return fail(400, { profileForm });
 
         const { error: profileError } = await event.locals.supabase.from("profiles").update(profileForm.data).eq("id", session.user.id);
         if (profileError) {
@@ -48,10 +48,10 @@ export const actions: Actions = {
     },
     updateEmail: async (event) => {
         const session = await event.locals.getSession();
-        if (!session) { throw error(401, "Unauthorized"); }
+        if (!session) throw error(401, "Unauthorized");
 
         const emailForm = await superValidate(event, emailSchema, { id: "email" });
-        if (!emailForm.valid) { return fail(400, { emailForm }); }
+        if (!emailForm.valid) return fail(400, { emailForm });
 
         const { error: emailError } = await event.locals.supabase.auth.updateUser({ email: emailForm.data.email });
         if (emailError) {
@@ -62,10 +62,10 @@ export const actions: Actions = {
     },
     updatePasword: async (event) => {
         const session = await event.locals.getSession();
-        if (!session) { throw error(401, "Unauthorized"); }
+        if (!session) throw error(401, "Unauthorized");
 
         const passwordForm = await superValidate(event, passwordSchema, { id: "email" });
-        if (!passwordForm.valid) { return fail(400, { passwordForm: passwordForm }); }
+        if (!passwordForm.valid) return fail(400, { passwordForm: passwordForm });
 
         if (passwordForm.data.password !== passwordForm.data.passwordConfirm) {
             return setError(passwordForm, "passwordConfirm", "Passwords do not match");

@@ -8,7 +8,7 @@ import type { Actions } from "./$types";
 export const load = async (event) => {
     ///Redirect to home if session exists
     const session = await event.locals.getSession();
-    if (session) { throw redirect(302, "/"); }
+    if (session) throw redirect(302, "/");
 
     return {
         form: superValidate(registerUserSchema),
@@ -18,7 +18,6 @@ export const load = async (event) => {
 export const actions: Actions = {
     default: async (event) => {
         const form = await superValidate(event, registerUserSchema);
-
         if (!form.valid) return fail(400, { form });
 
         if (form.data.password !== form.data.passwordConfirm) {

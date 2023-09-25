@@ -14,13 +14,10 @@ export const load = async (event) => {
                 .from('contacts')
                 .select('*').limit(10);
 
-        if (contactsError) {
-            throw error(500, "Error fetching contacts");
-        }
+        if (contactsError) throw error(500, "Error fetching contacts");
 
         return contacts;
     }
-
 
     return {
         createContactForm: superValidate(createContactSchema),
