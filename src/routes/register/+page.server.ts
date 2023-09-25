@@ -4,8 +4,9 @@ import { setError, superValidate } from "sveltekit-superforms/server";
 import type { Actions } from "./$types";
 
 
-
+///Load function for register page
 export const load = async (event) => {
+    ///Redirect to home if session exists
     const session = await event.locals.getSession();
     if (session) { throw redirect(302, "/"); }
 

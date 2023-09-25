@@ -2,10 +2,11 @@ import { createContactSchema } from '$lib/schemas.js';
 import { error, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 
+///Load function for contacts page
 export const load = async (event) => {
+    ///Redirect to login if session is null
     const session = await event.locals.getSession();
     if (!session) throw redirect(302, '/login');
-
 
     async function getContacts() {
         const { data: contacts, error: contactsError } =

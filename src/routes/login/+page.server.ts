@@ -9,7 +9,9 @@ const loginUserSchema = z.object({
     password: z.string().min(1, "Please enter a password"),
 });
 
+///Load function for login page
 export const load = async (event) => {
+    ///Redirect so home if session exists
     const session = await event.locals.getSession();
     if (session) { throw redirect(302, "/"); }
 

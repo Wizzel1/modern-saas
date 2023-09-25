@@ -2,13 +2,11 @@ import { emailSchema, passwordSchema, profileSchema } from "$lib/schemas.js";
 import { error, fail, redirect, type Actions } from "@sveltejs/kit";
 import { setError, superValidate } from "sveltekit-superforms/server";
 
-
+///Load function for the account page.
 export const load = async (event) => {
+    ///Redirect to login if session is null
     const session = await event.locals.getSession();
-
-    if (!session) {
-        throw redirect(302, "/login");
-    }
+    if (!session) throw redirect(302, "/login");
 
     async function getUserProfile() {
         const { data: profile, error: profileError } = await event.locals.supabase
@@ -32,6 +30,7 @@ export const load = async (event) => {
 };
 
 
+///Actions for the account settings page
 export const actions: Actions = {
     updateProfile: async (event) => {
         const session = await event.locals.getSession();
