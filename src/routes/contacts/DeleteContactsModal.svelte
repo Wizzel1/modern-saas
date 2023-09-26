@@ -36,7 +36,7 @@
 			<form method="POST" action="?/deleteContact&id={contactId}" use:enhance>
 				<Button type="submit" color="red" class="mr-2">Yes, I'm sure</Button>
 			</form>
-			<Button color="alternative">No, cancel</Button>
+			<Button on:click={() => (open = false)} color="alternative">No, cancel</Button>
 		</div>
 	</div>
 </Modal>
