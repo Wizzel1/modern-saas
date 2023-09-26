@@ -76,6 +76,6 @@ export const actions: Actions = {
             return setError(passwordForm, "An error occurred while updating your email.");
         }
 
-        return { passwordForm: passwordForm };
+        return { passwordForm };
     },
 };

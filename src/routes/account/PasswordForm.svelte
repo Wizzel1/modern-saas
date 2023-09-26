@@ -6,6 +6,7 @@
 	import { superForm } from "sveltekit-superforms/client";
 
 	export let data: SuperValidated<PasswordSchema>;
+		
 	const { form, errors, enhance } = superForm(data, {
 		resetForm: true
 	});
