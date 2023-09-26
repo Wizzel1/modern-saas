@@ -12,7 +12,7 @@ export async function startSupabase() {
 	if (port !== 64337) {
 		return
 	}
-	execSync("pnpx supabase start")
+	execSync("npx supabase start")
 }
 
 export async function clearSupabaseData() {
