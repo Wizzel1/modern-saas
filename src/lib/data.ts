@@ -47,7 +47,7 @@ export const prices = [
 			call_to_action: "Start Free Trial"
 		}
 	}
-];
+]
 
 export const contacts = [
 	{
@@ -78,4 +78,4 @@ export const contacts = [
 		phone: "2124543556",
 		company: "Lewis & Lofton"
 	}
-];
+]

@@ -3,20 +3,20 @@ import type { Database } from "$lib/supabase-types"
 import { createSupabaseLoadClient } from "@supabase/auth-helpers-sveltekit"
 
 export const load = async ({ fetch, data, depends }) => {
-    depends("supabase:auth")
+	depends("supabase:auth")
 
-    const supabase = createSupabaseLoadClient<Database>({
-        supabaseUrl: PUBLIC_SUPABASE_URL,
-        supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
-        event: { fetch },
-        serverSession: data.session,
-    })
-    const {
-        data: { session },
-    } = await supabase.auth.getSession()
+	const supabase = createSupabaseLoadClient<Database>({
+		supabaseUrl: PUBLIC_SUPABASE_URL,
+		supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
+		event: { fetch },
+		serverSession: data.session
+	})
+	const {
+		data: { session }
+	} = await supabase.auth.getSession()
 
-    return {
-        supabase,
-        session,
-    }
+	return {
+		supabase,
+		session
+	}
 }

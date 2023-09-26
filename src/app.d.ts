@@ -1,17 +1,17 @@
-import type { Database } from "$lib/supabase-types.ts";
-import type { Session, SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "$lib/supabase-types.ts"
+import type { Session, SupabaseClient } from "@supabase/supabase-js"
 
 declare global {
 	namespace App {
 		interface Locals {
-			supabase: SupabaseClient<Database>;
-			getSession(): Promise<Session | null>;
+			supabase: SupabaseClient<Database>
+			getSession(): Promise<Session | null>
 		}
 		interface PageData {
-			session: Session | null;
+			session: Session | null
 		}
 		// interface Error {}
 		// interface Platform {}
 	}
 }
-export { };
+export {}
