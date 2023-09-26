@@ -2,9 +2,9 @@ import { createContactSchema } from "$lib/schemas.js";
 import { error, fail, redirect } from "@sveltejs/kit";
 import { setError, superValidate } from "sveltekit-superforms/server";
 
-
-
+///Load function for the contact page
 export const load = async (event) => {
+    ///Redirect to login if session is null
     const session = await event.locals.getSession();
     if (!session) throw redirect(302, '/login');
 
@@ -27,9 +27,10 @@ export const load = async (event) => {
     }
 };
 
-
+///Actions for the updateContact form
 export const actions = {
     updateContact: async (event) => {
+        ///Redirect to login if session is null
         const session = await event.locals.getSession();
         if (!session) throw error(401, "Unauthorized");
 
