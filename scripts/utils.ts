@@ -36,6 +36,7 @@ export async function createUser(user: CreateUser) {
 		}
 	})
 
+	await supabaseAdmin.auth.signOut()
 	if (authError || !authData.user) {
 		throw new Error("Error creating user")
 	}
