@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { lookupKeys, productConfig, productNames } from "./config"
 
 export const registerUserSchema = z.object({
 	full_name: z.string().max(140, "Name must be 140 characters or less").nullish(),
@@ -101,3 +102,26 @@ export const stripeSubscriptionSchema = z
 			product_id: price.product
 		}
 	})
+
+const priceProductSchema = z
+	.object({
+		id: z.string(),
+		name: z.enum([...productNames]),
+		description: z.string()
+	})
+	.transform((obj) => {
+		return {
+			...obj,
+			features: productConfig[obj.name].features,
+			call_to_action: productConfig[obj.name].call_to_action
+		}
+	})
+
+const priceSchema = z.object({
+	id: z.string(),
+	lookup_key: z.enum([...lookupKeys]),
+	unit_amount: z.number().transform((n) => n / 100),
+	product: priceProductSchema
+})
+
+export const priceListSchema = z.array(priceSchema)
