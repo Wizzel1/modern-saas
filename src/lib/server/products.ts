@@ -4,7 +4,6 @@ import { supabaseAdmin } from "./supabase-admin"
 
 export async function upsertProductRecord(stripeProduct: Stripe.Product) {
 	const product = stripeProductSchema.parse(stripeProduct)
-
 	const { error } = await supabaseAdmin.from("billing_products").upsert(product)
 	if (error) throw error
 }
