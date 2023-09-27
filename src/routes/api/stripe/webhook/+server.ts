@@ -1,4 +1,5 @@
 import { ENV } from "$lib/server/env"
+import { deleteProductRecord, upsertProductRecord } from "$lib/server/products"
 import { stripe } from "$lib/server/stripe"
 import { json, type RequestHandler } from "@sveltejs/kit"
 import type Stripe from "stripe"
@@ -25,13 +26,11 @@ export const POST: RequestHandler = async (event) => {
 	try {
 		switch (stripeEvent.type) {
 			case "product.created":
-				console.log("Product created", stripeEvent)
-				break
 			case "product.updated":
-				console.log("Product updated", stripeEvent)
+				await upsertProductRecord(stripeEvent.data.object)
 				break
 			case "product.deleted":
-				console.log("Product deleted", stripeEvent)
+				await deleteProductRecord(stripeEvent.data.object)
 				break
 			case "customer.updated":
 				console.log("customer updated", stripeEvent)
