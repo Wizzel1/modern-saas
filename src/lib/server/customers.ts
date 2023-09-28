@@ -23,7 +23,7 @@ export async function deleteCustomerRecord(stripeCustomer: Stripe.Customer) {
 	if (error) throw error
 }
 
-export async function getCustomerRecord(userId: string) {
+export async function getCustomerBillingRecord(userId: string) {
 	const { data: existingCustomer } = await supabaseAdmin
 		.from("billing_customers")
 		.select("*")

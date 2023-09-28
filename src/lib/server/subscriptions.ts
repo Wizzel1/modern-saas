@@ -1,5 +1,8 @@
 import { stripeSubscriptionSchema } from "$lib/schemas"
 import type Stripe from "stripe"
+import { getCustomerBillingRecord } from "./customers"
+import { ENV } from "./env"
+import { stripe } from "./stripe"
 import { supabaseAdmin } from "./supabase-admin"
 
 export async function insertSubscriptionRecord(stripeSubscription: Stripe.Subscription) {
@@ -30,4 +33,87 @@ export async function updateSubscriptionRecord(stripeSubscription: Stripe.Subscr
 		.eq("id", subscription.id)
 
 	if (subscriptionError) throw subscriptionError
+}
+
+export async function verifyTrialEligibility(user_id: string, price_id: string): Promise<boolean> {
+	type PriceWithProduct = Stripe.Price & { product: Stripe.Product }
+
+	const price = (await stripe.prices.retrieve(price_id, {
+		expand: ["product"]
+	})) as PriceWithProduct
+
+	if (!price) throw new Error("Price not found")
+
+	const { data: subscription, error: subscriptionError } = await supabaseAdmin
+		.from("billing_subscriptions")
+		.select("id, product_id")
+		.eq("user_id", user_id)
+		.eq("product_id", price.product.id)
+		.limit(1)
+		.maybeSingle()
+
+	if (subscriptionError) throw subscriptionError
+	return !subscription
+}
+
+export async function createCheckoutSession(user_id: string, price_id: string) {
+	const customer = await getCustomerBillingRecord(user_id)
+	const isEligibleForTrial = await verifyTrialEligibility(user_id, price_id)
+
+	if (isEligibleForTrial) {
+		const checkoutSession = await stripe.checkout.sessions.create({
+			payment_method_types: ["card"],
+			mode: "subscription",
+			customer: customer.id,
+			line_items: [
+				{
+					price: price_id,
+					quantity: 1
+				}
+			],
+			success_url: `${ENV.PUBLIC_BASE_URL}/account`,
+			cancel_url: `${ENV.PUBLIC_BASE_URL}/pricing`,
+			subscription_data: {
+				metadata: {
+					user_id
+				},
+				trial_period_days: 14,
+				trial_settings: {
+					end_behavior: {
+						missing_payment_method: "cancel"
+					}
+				}
+			},
+			payment_method_collection: "if_required"
+		})
+
+		if (!checkoutSession.url) {
+			throw new Error("Error creating checkout session")
+		}
+		return checkoutSession.url
+	}
+
+	const checkoutSession = await stripe.checkout.sessions.create({
+		payment_method_types: ["card"],
+		mode: "subscription",
+		customer: customer.id,
+		line_items: [
+			{
+				price: price_id,
+				quantity: 1
+			}
+		],
+		success_url: `${ENV.PUBLIC_BASE_URL}/account`,
+		cancel_url: `${ENV.PUBLIC_BASE_URL}/pricing`,
+		subscription_data: {
+			metadata: {
+				user_id
+			}
+		}
+	})
+
+	if (!checkoutSession.url) {
+		throw new Error("Error creating checkout session")
+	}
+	return checkoutSession.url
 }
