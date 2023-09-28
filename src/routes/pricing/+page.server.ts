@@ -3,8 +3,10 @@ import { priceListSchema } from "$lib/schemas.js"
 import { stripe } from "$lib/server/stripe.js"
 import { z } from "zod"
 
+///Setting the value to "month" if an invalid interval is parsed
 const intervalSchema = z.enum(["month", "year"]).catch("month")
 
+///Load function for the pricing page
 export const load = async (event) => {
 	const interval = intervalSchema.parse(event.url.searchParams.get("interval"))
 
