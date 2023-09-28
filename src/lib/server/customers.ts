@@ -37,9 +37,14 @@ export async function getCustomerRecord(userId: string) {
 		throw userError || new Error("User not found")
 	}
 
+	const testClock = await stripe.testHelpers.testClocks.create({
+		frozen_time: Math.floor(Date.now() / 1000)
+	})
+
 	const stripeCustomer = await stripe.customers.create({
 		email: userData.user.email,
-		metadata: { userId: userId }
+		metadata: { userId: userId },
+		test_clock: testClock.id
 	})
 	if (!stripeCustomer) throw new Error("Failed to create Stripe customer")
 
