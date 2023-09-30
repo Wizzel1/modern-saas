@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { RocketIcon } from "$lib/components/icons";
-	import { Button } from "flowbite-svelte";
-	import EmailForm from "./EmailForm.svelte";
-	import PasswordForm from "./PasswordForm.svelte";
-	import ProfileForm from "./ProfileForm.svelte";
+	import { RocketIcon } from "$lib/components/icons"
+	import { Button } from "flowbite-svelte"
+	import EmailForm from "./EmailForm.svelte"
+	import PasswordForm from "./PasswordForm.svelte"
+	import ProfileForm from "./ProfileForm.svelte"
 
-	export let data;
+	export let data
 </script>
 
 <div class="py-20">
@@ -29,7 +29,7 @@
 				<div>
 					Current Plan: <strong>Free</strong>
 				</div>
-				<Button color="blue" class="mt-4">Manage Billing</Button>
+				<Button color="blue" class="mt-4" href="/account/billing">Manage Billing</Button>
 			</div>
 		</section>
 		<!-- Profile Section -->
